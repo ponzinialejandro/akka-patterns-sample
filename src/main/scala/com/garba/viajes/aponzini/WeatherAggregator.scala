@@ -25,7 +25,7 @@ class WeatherAggregator(next: ActorRef, timeout : FiniteDuration) extends Actor{
       weather += ("WundergroundMessage" -> model)
   }
     case Timeout => {
-      next ! weather
+      next ! AggregationResult(weather)
     }
     case _ => {
       println("error")

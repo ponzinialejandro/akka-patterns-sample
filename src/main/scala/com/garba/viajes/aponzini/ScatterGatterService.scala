@@ -12,7 +12,7 @@ class ScatterGatterService extends Actor {
     case ScatterGatterRequest => {
       implicit val system = ActorSystem("my-system")
 
-      val aggregatorActor = system.actorOf(Props(new WeatherAggregator(self, 6 seconds)))
+      val aggregatorActor = system.actorOf(Props(new WeatherAggregator(self, 2 seconds)))
       val darkActor = system.actorOf(Props(new DarkSkyActor(aggregatorActor)))
       val wundergroundActor = system.actorOf(Props(new WundergroundActor(aggregatorActor)))
       val services: List[ActorRef] = List(darkActor, wundergroundActor)
