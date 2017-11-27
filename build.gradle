@@ -19,8 +19,10 @@ tasks.withType(ScalaCompile) {
 }
 
 dependencies {
-    compile group: 'com.typesafe.akka'  , name: 'akka-actor_2.12'   , version: '2.5.7'
-    compile group: 'com.typesafe.akka'  , name: 'akka-stream_2.12'  , version: '2.5.7'
-    compile group: 'com.typesafe.akka'  , name: 'akka-http_2.12'    , version: '10.0.10'
-    compile group: 'org.scala-lang'     , name: 'scala-library'     , version: '2.11.8'
+    compile     group: 'com.typesafe.akka'  , name: 'akka-actor_2.12'   , version: '2.5.7'
+    compile     group: 'com.typesafe.akka'  , name: 'akka-stream_2.12'  , version: '2.5.7'
+    compile     group: 'com.typesafe.akka'  , name: 'akka-http_2.12'    , version: '10.0.10'
+    compile     group: 'org.scala-lang'     , name: 'scala-library'     , version: '2.11.8'
+    testCompile group: 'com.typesafe.akka'  , name: 'akka-testkit_2.12' , version: '2.5.7'
+    testCompile group: 'org.scalatest'      , name: 'scalatest_2.12'    , version: '3.0.4'
 }
