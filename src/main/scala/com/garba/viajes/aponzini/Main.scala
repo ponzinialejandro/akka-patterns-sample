@@ -1,17 +1,13 @@
 package com.garba.viajes.aponzini
 
-import akka.actor.{Actor, ActorSystem, Props}
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 
-object Main {
 
-  def main(args: Array[String]) {
+object Main extends App {
 
     implicit val system = ActorSystem("my-system")
+    //Simulo un web service
+    val sgService = system.actorOf(Props( new ScatterGatterService()))
+    sgService ! ScatterGatterRequest
 
-    val darkActor = system.actorOf(Props( new DarkSkyActor(null)))
-    val wundergroundActor = system.actorOf(Props( new WundergroundActor(null)))
-
-    darkActor ! None
-    wundergroundActor ! None
-  }
 }

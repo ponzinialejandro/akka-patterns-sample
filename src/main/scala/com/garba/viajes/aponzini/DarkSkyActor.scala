@@ -11,6 +11,7 @@ case class DarkSkyMessage(override val model : String) extends AbstractWheatherM
 
 class DarkSkyActor(next: ActorRef) extends WeatherServiceProvider {
 
+
   val apiKey = "9c90360fd2a66589c0200eda7b323db9"
   val latitude = -34.6083
   val longitude = -58.3712
