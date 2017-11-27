@@ -1,4 +1,4 @@
-package com.garba.viajes.aponzini
+package com.garba.viajes.aponzini.scattergatter
 
 import akka.actor.{Actor, ActorRef}
 

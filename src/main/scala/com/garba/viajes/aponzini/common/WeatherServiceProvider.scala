@@ -1,20 +1,15 @@
-package com.garba.viajes.aponzini
+package com.garba.viajes.aponzini.common
+
+import akka.actor.ActorRef
+import akka.http.scaladsl.model.HttpResponse
 
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
-import akka.actor.{Actor, ActorRef, ActorSystem}
-import akka.http.scaladsl.model.HttpResponse
-import akka.stream.ActorMaterializer
 
 trait AbstractWheatherModel {
   def model: String
 }
 
-abstract class WeatherServiceProvider extends Actor {
-
-  implicit val system = ActorSystem("my-system")
-  implicit val executionContext = system.dispatcher
-  implicit val materializer = ActorMaterializer()
+abstract class WeatherServiceProvider extends WeatherActor {
 
   def getWeatherService : Future[HttpResponse]
   def transformModel(response : HttpResponse)    : Future[String]
@@ -24,7 +19,6 @@ abstract class WeatherServiceProvider extends Actor {
   override def receive = {
     case _ => {
       getWeatherService.flatMap(transformModel).onComplete( model =>{
-        //println(model.get)
         getNext() ! wrapInMessage(model.getOrElse("Ups wrong"))
       })
     }

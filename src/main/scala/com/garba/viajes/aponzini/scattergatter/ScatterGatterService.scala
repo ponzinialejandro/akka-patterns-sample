@@ -1,17 +1,16 @@
-package com.garba.viajes.aponzini
+package com.garba.viajes.aponzini.scattergatter
 
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.actor.{ActorRef, Props}
+import com.garba.viajes.aponzini.common.{DarkSkyActor, WeatherActor, WundergroundActor}
+
 import scala.concurrent.duration._
 
 case class ScatterGatterRequest()
 
-class ScatterGatterService extends Actor {
-
+class ScatterGatterService(originalSender : ActorRef) extends WeatherActor {
 
   override def receive = {
     case ScatterGatterRequest => {
-      implicit val system = ActorSystem("my-system")
-
       val aggregatorActor = system.actorOf(Props(new WeatherAggregator(self, 4 seconds)))
       val darkActor = system.actorOf(Props(new DarkSkyActor(aggregatorActor)))
       val wundergroundActor = system.actorOf(Props(new WundergroundActor(aggregatorActor)))
@@ -20,8 +19,9 @@ class ScatterGatterService extends Actor {
 
       scatterActor ! None
     }
-    case AggregationResult(mapa) => {
-      println(mapa)
+    case aggregation : AggregationResult => {
+      println("AGGREGATED")
+      originalSender ! aggregation
     }
   }
 }

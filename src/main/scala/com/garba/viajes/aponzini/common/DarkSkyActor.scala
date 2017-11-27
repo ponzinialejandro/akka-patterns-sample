@@ -1,11 +1,9 @@
-package com.garba.viajes.aponzini
+package com.garba.viajes.aponzini.common
 
-import akka.actor.{Actor, ActorRef, ActorSystem}
+import akka.actor.ActorRef
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.ActorMaterializer
-
 
 case class DarkSkyMessage(override val model : String) extends AbstractWheatherModel
 
