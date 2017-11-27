@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="Gradle: org.scala-lang:scala-library:2.12.4" type="Scala">
+    <properties>
+      <compiler-classpath>
+        <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-compiler/2.12.4/c69c0ee397050d7fa30cfe490471388d30c03bd0/scala-compiler-2.12.4.jar" />
+        <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.12.4/7663f74ef944453c86cc7e6597ed33e9281f6412/scala-library-2.12.4.jar" />
+        <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-reflect/2.12.4/2df9e6015b97e35464edddd20eec392bb54fab11/scala-reflect-2.12.4.jar" />
+        <root url="file://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang.modules/scala-xml_2.12/1.0.6/e22de3366a698a9f744106fb6dda4335838cf6a7/scala-xml_2.12-1.0.6.jar" />
+      </compiler-classpath>
+    </properties>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.12.4/7663f74ef944453c86cc7e6597ed33e9281f6412/scala-library-2.12.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.12.4/cf0a248c2c35f44dd24a44f50056606450980f33/scala-library-2.12.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,26 @@
+group 'com.garba.viajes.aponzini'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'scala'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.8'
+}
+
+tasks.withType(ScalaCompile) {
+    ScalaCompileOptions.metaClass.daemonServer = true
+    ScalaCompileOptions.metaClass.fork = true
+    ScalaCompileOptions.metaClass.useAnt = false
+    ScalaCompileOptions.metaClass.useCompileDaemon = false
+}
+
+dependencies {
+    compile group: 'com.typesafe.akka'  , name: 'akka-actor_2.12'   , version: '2.5.7'
+    compile group: 'com.typesafe.akka'  , name: 'akka-stream_2.12'  , version: '2.5.7'
+    compile group: 'com.typesafe.akka'  , name: 'akka-http_2.12'    , version: '10.0.10'
+    compile group: 'org.scala-lang'     , name: 'scala-library'     , version: '2.11.8'
+}
