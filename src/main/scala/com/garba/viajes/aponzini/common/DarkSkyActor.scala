@@ -16,7 +16,7 @@ class DarkSkyActor(next: ActorRef) extends WeatherServiceProvider {
   val apiUrl = "https://api.darksky.net/forecast/"
   val serviceUrl = apiUrl + apiKey + "/" + latitude + "," + longitude
 
-  override def getWeatherService =  Http().singleRequest(HttpRequest(uri = serviceUrl))
+  override def getWeatherService = Http().singleRequest(HttpRequest(uri = serviceUrl))
 
   override def transformModel(response: HttpResponse) = Unmarshal(response).to[String]
 
