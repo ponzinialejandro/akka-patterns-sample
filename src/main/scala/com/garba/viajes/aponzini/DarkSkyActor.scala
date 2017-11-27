@@ -4,6 +4,7 @@ import akka.actor.{Actor, ActorRef, ActorSystem}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.stream.ActorMaterializer
 
 
 case class DarkSkyMessage(override val model : String) extends AbstractWheatherModel
@@ -22,5 +23,5 @@ class DarkSkyActor(next: ActorRef) extends WeatherServiceProvider {
 
   override def getNext() = next
 
-  override def wrapInMessage(data: String) = DarkSkyMessage(data)
+  override def wrapInMessage(model: String) = DarkSkyMessage(model)
 }
