@@ -1,10 +1,8 @@
 package com.garba.viajes.aponzini.requestProvideOrchestrator
 
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
-import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.http.scaladsl.model.{HttpResponse}
 import akka.pattern.pipe
-import com.garba.viajes.aponzini.common.WeatherActor
+import com.garba.viajes.aponzini.common.{Providers, WeatherActor}
 import com.garba.viajes.aponzini.scattergatter.AbstractWheatherModel
 
 import scala.concurrent.Future
@@ -12,19 +10,14 @@ import scala.concurrent.Future
 case class OpenWeaterMapRequest()
 case class OpenWeatherMapMessage(override val model : String) extends AbstractWheatherModel
 
-class OpenWeatherMapActor extends WeatherActor{
+class OpenWeatherMapActor extends WeatherActor with Providers{
 
-  //http://api.openweathermap.org/data/2.5/forecast?id=3435907&APPID=42ba482614aaf1991cff199aed0159b6
-
-  val apiKey = "42ba482614aaf1991cff199aed0159b6"
-  val city = 3435907
-  val apiUrl = "http://api.openweathermap.org/data/2.5/forecast"
-  val serviceUrl = apiUrl + "?id=" + city+ "&APPID=" +apiKey
+  val serviceUrl = openWeatherUrl
 
   override def receive = {
     case OpenWeaterMapRequest =>
-      def consultProvider() : Future[HttpResponse] = Http().singleRequest(HttpRequest(uri = apiUrl))
-      def convertResonse(response :HttpResponse) :Future[String] = Unmarshal(response).to[String]
+      def consultProvider() : Future[HttpResponse] = defaultServiceCall(serviceUrl)
+      def convertResonse(response :HttpResponse) :Future[String] = defaultStringResultConvertion(response)
       def resturnInWrapper(rs : String) : AbstractWheatherModel = OpenWeatherMapMessage(rs)
       pipe{
         consultProvider()

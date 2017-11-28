@@ -17,7 +17,6 @@ trait Providers extends ActorSystemContext{
     serviceUrl
   }
 
-
   def darkSkyUrl =  {
     val apiKey = "9c90360fd2a66589c0200eda7b323db9"
     val latitude = -34.6083
