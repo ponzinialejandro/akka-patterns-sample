@@ -13,9 +13,9 @@ class SingleRequestProviderTest() extends TestKit(ActorSystem("SingleRequestProv
     TestKit.shutdownActorSystem(system)
   }
 
-  "ScatterGatterService" must {
+  "SingleRequestProviderTest" must {
 
-    "return an AggregationResult class" in {
+    "Orchestrator should return an OpenWeaterMapsWithCityHistory" in {
       val sgService = system.actorOf(Props(new RequestOrchestrator(self)))
       sgService.tell(WeaterRequest, self) //implicit sender
       expectMsgClass(6 seconds , classOf[OpenWeaterMapsWithCityHistory])

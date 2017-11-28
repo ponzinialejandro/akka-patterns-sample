@@ -1,7 +1,7 @@
 package com.garba.viajes.aponzini.requestProvideOrchestrator
 
 import akka.actor.{ActorRef, Props}
-import com.garba.viajes.aponzini.scattergatter.WeatherActor
+import com.garba.viajes.aponzini.common.WeatherActor
 
 case class WeaterRequest()
 
@@ -12,8 +12,20 @@ class RequestOrchestrator(originalSender : ActorRef) extends WeatherActor{
 
   override def receive = {
 
-    case WeaterRequest => weatherActor ! OpenWeaterMapRequest
-    case message : OpenWeatherMapMessage => historyActor ! message
-    case result : OpenWeaterMapsWithCityHistory => originalSender ! result
+    case WeaterRequest => {
+      println("RequestOrchestrator.receive(WeaterRequest)")
+      println("Call OpenWeatherMapActor")
+      weatherActor ! OpenWeaterMapRequest
+    }
+    case message : OpenWeatherMapMessage => {
+      println("RequestOrchestrator.receive(OpenWeatherMapMessage) from OpenWeatherMapActor")
+      println("Call CityHistoryActor")
+      historyActor ! message
+    }
+    case result : OpenWeaterMapsWithCityHistory => {
+      println("RequestOrchestrator.receive(OpenWeaterMapsWithCityHistory) from CityHistoryActor")
+      println("Return to originalSender OpenWeaterMapsWithCityHistory")
+      originalSender ! result
+    }
   }
 }

@@ -3,6 +3,7 @@ package com.garba.viajes.aponzini.scattergatter
 import akka.actor.ActorRef
 import akka.http.scaladsl.model.HttpResponse
 import akka.pattern.pipe
+import com.garba.viajes.aponzini.common.WeatherActor
 
 import scala.concurrent.Future
 

@@ -2,6 +2,7 @@ package com.garba.viajes.aponzini.scattergatter
 
 import akka.actor.ActorRef
 import akka.util.Timeout
+import com.garba.viajes.aponzini.common.WeatherActor
 
 import scala.concurrent.duration._
 

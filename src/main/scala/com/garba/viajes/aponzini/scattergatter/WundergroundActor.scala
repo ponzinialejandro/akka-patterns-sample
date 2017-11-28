@@ -1,21 +1,18 @@
 package com.garba.viajes.aponzini.scattergatter
 
 import akka.actor.ActorRef
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
-import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.http.scaladsl.model.{HttpResponse}
+import com.garba.viajes.aponzini.common.Providers
 
 case class WundergroundMessage(model: String) extends AbstractWheatherModel
 
-class WundergroundActor(next: ActorRef) extends WeatherServiceProvider {
+class WundergroundActor(next: ActorRef) extends WeatherServiceProvider with Providers{
 
-  val apiUrl = "http://api.wunderground.com/api/"
-  val apiKey = "6ea16487adb7c96d"
-  val serviceUrl = apiUrl + apiKey + "/conditions/q/ar/buenos-aires.json"
+  val serviceUrl = wundergroundUrl
 
-  override def getWeatherService = Http().singleRequest(HttpRequest(uri = serviceUrl))
+  override def getWeatherService = defaultServiceCall(serviceUrl)
 
-  override def transformModel(response: HttpResponse) = Unmarshal(response).to[String]
+  override def transformModel(response: HttpResponse) = defaultStringResultConvertion(response)
 
   override def getNext() = next
 

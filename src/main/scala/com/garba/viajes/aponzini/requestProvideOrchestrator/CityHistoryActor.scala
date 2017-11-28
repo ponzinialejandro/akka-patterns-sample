@@ -1,6 +1,6 @@
 package com.garba.viajes.aponzini.requestProvideOrchestrator
 
-import com.garba.viajes.aponzini.scattergatter.WeatherActor
+import com.garba.viajes.aponzini.common.WeatherActor
 
 case class OpenWeaterMapsWithCityHistory(weather: String, history :String)
 

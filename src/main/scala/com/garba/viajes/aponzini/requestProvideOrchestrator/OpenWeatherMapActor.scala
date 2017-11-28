@@ -4,7 +4,8 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.pattern.pipe
-import com.garba.viajes.aponzini.scattergatter.{AbstractWheatherModel, WeatherActor}
+import com.garba.viajes.aponzini.common.WeatherActor
+import com.garba.viajes.aponzini.scattergatter.AbstractWheatherModel
 
 import scala.concurrent.Future
 

@@ -6,7 +6,7 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 
 import scala.concurrent.Future
 
-trait Providers {
+trait Providers extends ActorSystemContext{
 
 
   def openWeatherUrl =  {

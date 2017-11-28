@@ -1,9 +1,7 @@
 package com.garba.viajes.aponzini.scattergatter
 
 import akka.actor.ActorRef
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
-import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.http.scaladsl.model.{HttpResponse}
 import com.garba.viajes.aponzini.common.Providers
 
 case class DarkSkyMessage(override val model : String) extends AbstractWheatherModel
@@ -11,15 +9,11 @@ case class DarkSkyMessage(override val model : String) extends AbstractWheatherM
 class DarkSkyActor(next: ActorRef) extends WeatherServiceProvider with Providers {
 
 
-  val apiKey = "9c90360fd2a66589c0200eda7b323db9"
-  val latitude = -34.6083
-  val longitude = -58.3712
-  val apiUrl = "https://api.darksky.net/forecast/"
-  val serviceUrl = apiUrl + apiKey + "/" + latitude + "," + longitude
+  val serviceUrl : String = darkSkyUrl
 
-  override def getWeatherService = Http().singleRequest(HttpRequest(uri = serviceUrl))
+  override def getWeatherService = defaultServiceCall(serviceUrl)
 
-  override def transformModel(response: HttpResponse) = Unmarshal(response).to[String]
+  override def transformModel(response: HttpResponse) = defaultStringResultConvertion(response)
 
   override def getNext() = next
 
