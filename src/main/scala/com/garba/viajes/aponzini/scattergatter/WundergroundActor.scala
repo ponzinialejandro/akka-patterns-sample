@@ -1,4 +1,4 @@
-package com.garba.viajes.aponzini.common
+package com.garba.viajes.aponzini.scattergatter
 
 import akka.actor.ActorRef
 import akka.http.scaladsl.Http

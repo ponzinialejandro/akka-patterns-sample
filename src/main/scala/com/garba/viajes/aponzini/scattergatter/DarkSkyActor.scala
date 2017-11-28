@@ -1,13 +1,14 @@
-package com.garba.viajes.aponzini.common
+package com.garba.viajes.aponzini.scattergatter
 
 import akka.actor.ActorRef
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.http.scaladsl.unmarshalling.Unmarshal
+import com.garba.viajes.aponzini.common.Providers
 
 case class DarkSkyMessage(override val model : String) extends AbstractWheatherModel
 
-class DarkSkyActor(next: ActorRef) extends WeatherServiceProvider {
+class DarkSkyActor(next: ActorRef) extends WeatherServiceProvider with Providers {
 
 
   val apiKey = "9c90360fd2a66589c0200eda7b323db9"
