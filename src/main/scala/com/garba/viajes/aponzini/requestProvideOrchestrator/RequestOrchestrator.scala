@@ -2,6 +2,7 @@ package com.garba.viajes.aponzini.requestProvideOrchestrator
 
 import akka.actor.{ActorRef, Props}
 import com.garba.viajes.aponzini.common.WeatherActor
+import com.garba.viajes.aponzini.common.providers.{OpenWeaterMapRequest, OpenWeatherMapActor, OpenWeatherMapMessage}
 
 case class WeaterRequest()
 

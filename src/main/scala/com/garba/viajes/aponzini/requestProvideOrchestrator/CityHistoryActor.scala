@@ -1,6 +1,7 @@
 package com.garba.viajes.aponzini.requestProvideOrchestrator
 
 import com.garba.viajes.aponzini.common.WeatherActor
+import com.garba.viajes.aponzini.common.providers.OpenWeatherMapMessage
 
 case class OpenWeaterMapsWithCityHistory(weather: String, history :String)
 

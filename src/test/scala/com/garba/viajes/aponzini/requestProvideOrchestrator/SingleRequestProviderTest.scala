@@ -4,6 +4,7 @@ import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 import akka.pattern.ask
+import com.garba.viajes.aponzini.common.providers.{OpenWeaterMapRequest, OpenWeatherMapActor, OpenWeatherMapMessage}
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
