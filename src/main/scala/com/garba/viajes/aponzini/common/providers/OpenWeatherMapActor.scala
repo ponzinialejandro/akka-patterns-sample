@@ -18,4 +18,6 @@ class OpenWeatherMapActor extends WeatherServiceProvider with Providers{
   override def getNext() = sender()
 
   override def wrapInMessage(model: String) = OpenWeatherMapMessage(model)
+
+  override def getProviderName = "Open Weather Map"
 }

@@ -8,19 +8,23 @@ import com.garba.viajes.aponzini.common.providers.{DarkSkyMessage, WundergroundM
 import scala.concurrent.duration._
 import com.garba.viajes.aponzini.scattergatter.AggregationResult
 
-case class AggregationResult(map : Map[String,String])
+case class AggregationResultRouter(map : Map[String,String])
 
 class WeatherAggregatorWithRouter(next: ActorRef, providers: Int) extends WeatherActor {
 
   var weather  : Map[String,String] =  Map[String,String]()
-  val timeout = 5 seconds
+  val timeout = 40 seconds
   val task = context.system.scheduler.scheduleOnce(timeout, self, Timeout)
   var count : Int = 0
 
+
+  def send() = {
+    next ! AggregationResultRouter(weather)
+  }
   def checkSend() = {
     count += 1
     if(count == providers){
-      next ! AggregationResult(weather)
+      send()
       task.cancel()
     }
   }
@@ -40,7 +44,7 @@ class WeatherAggregatorWithRouter(next: ActorRef, providers: Int) extends Weathe
 
     case Timeout => {
       println("WeatherAggregator.Timeout")
-      next ! AggregationResult(weather)
+      send()
     }
 
     case _ => {

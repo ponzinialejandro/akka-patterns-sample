@@ -5,19 +5,25 @@ import akka.routing.BroadcastGroup
 import com.garba.viajes.aponzini.common.WeatherActor
 import com.garba.viajes.aponzini.common.providers.{DarkSkyActor, WundergroundActor}
 
-case class WeatherServiceRequest()
+case class WeatherRouterRequest()
 
-class ScatterGatterServiceWithRouter extends WeatherActor {
+class ScatterGatterServiceWithRouter(originalSender : ActorRef) extends WeatherActor {
 
   val darkActor = context.actorOf(Props(new DarkSkyActor()))
   val wundergroundActor = context.actorOf(Props(new WundergroundActor()))
 
   override def receive = {
-    case request : WeatherServiceRequest =>
-      val routees = List(darkActor, wundergroundActor).map( route=> route.path.toString)
+
+    case rq @ WeatherRouterRequest =>
+      val routees = List(darkActor, wundergroundActor).map(route => route.path.toString)
       val aggregator = context.actorOf(Props(new WeatherAggregatorWithRouter(self, routees.size)))
-      val broadcastActor : ActorRef = context.actorOf(Props[Scatter].withRouter(BroadcastGroup(paths = routees)))
-      broadcastActor.tell(request, aggregator)
+      val broadcastActor: ActorRef = context.actorOf(Props[Scatter].withRouter(BroadcastGroup(paths = routees)))
+      broadcastActor.tell(rq, aggregator)
+
+    case aggregationReuslt : AggregationResultRouter =>
+      originalSender ! aggregationReuslt
+
+    case elses => println(elses.getClass.getName)
   }
 }
 

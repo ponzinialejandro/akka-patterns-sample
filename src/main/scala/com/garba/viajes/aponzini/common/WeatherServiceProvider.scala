@@ -12,6 +12,8 @@ trait AbstractWheatherModel {
 
 abstract class WeatherServiceProvider extends WeatherActor {
 
+  def getProviderName : String
+
   def getWeatherService: Future[HttpResponse]
 
   def transformModel(response: HttpResponse): Future[String]
@@ -22,7 +24,7 @@ abstract class WeatherServiceProvider extends WeatherActor {
 
   override def receive = {
     case _ => {
-
+        println("Receive message from " + getProviderName)
       pipe { //Enviar el resultado de este future al siguiente actor
         getWeatherService //devuelve un stream de httResponse
           .flatMap(transformModel) //Lo transforma en u String

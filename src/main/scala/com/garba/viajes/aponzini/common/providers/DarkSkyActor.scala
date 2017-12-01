@@ -17,4 +17,6 @@ class DarkSkyActor() extends WeatherServiceProvider with Providers {
   override def getNext() = sender()
 
   override def wrapInMessage(model: String) = DarkSkyMessage(model)
+
+  override def getProviderName = "Dark Sky"
 }

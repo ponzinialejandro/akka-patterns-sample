@@ -16,4 +16,6 @@ class WundergroundActor() extends WeatherServiceProvider with Providers{
   override def getNext() = sender()
 
   override def wrapInMessage(model: String) = WundergroundMessage(model)
+
+  override def getProviderName = "Wunderground"
 }
