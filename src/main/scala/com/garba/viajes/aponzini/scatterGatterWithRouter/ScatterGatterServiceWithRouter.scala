@@ -14,14 +14,14 @@ class ScatterGatterServiceWithRouter(originalSender : ActorRef) extends WeatherA
 
   override def receive = {
 
-    case rq : WeatherRouterRequest =>
+    case request @ WeatherRouterRequest =>
       val routees = List(darkActor, wundergroundActor).map(route => route.path.toString)
       val aggregator = context.actorOf(Props(new WeatherAggregatorWithRouter(self, routees.size)))
       val broadcastActor: ActorRef = context.actorOf(Props[Scatter].withRouter(BroadcastGroup(paths = routees)))
-      broadcastActor.tell(rq, aggregator)
+      broadcastActor.tell(request, aggregator)
 
-    case aggregationReuslt : AggregationResultRouter =>
-      originalSender ! aggregationReuslt
+    case aggre : AggregationResultRouter =>
+      originalSender ! aggre
 
     case elses => println(elses.getClass.getName)
   }

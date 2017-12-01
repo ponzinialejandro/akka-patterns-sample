@@ -18,7 +18,7 @@ class ScatterGatterWithRouterTest() extends TestKit(ActorSystem("ScatterGatherRo
 
     "return an AggregationResult class" in {
       val sgService = system.actorOf(Props( new ScatterGatterServiceWithRouter(self)))
-      sgService ! WeatherRouterRequest()
+      sgService ! WeatherRouterRequest
       expectMsgClass(6 seconds , classOf[AggregationResultRouter])
     }
   }
