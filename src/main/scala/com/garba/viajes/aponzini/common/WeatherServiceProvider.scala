@@ -1,7 +1,9 @@
 package com.garba.viajes.aponzini.common
 
 import akka.actor.ActorRef
-import akka.http.scaladsl.model.HttpResponse
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
+import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.pattern.pipe
 
 import scala.concurrent.Future
@@ -12,15 +14,21 @@ trait AbstractWheatherModel {
 
 abstract class WeatherServiceProvider extends WeatherActor {
 
+  def serviceUrl : String
+
   def getProviderName : String
 
-  def getWeatherService: Future[HttpResponse]
+  def getWeatherService: Future[HttpResponse] = defaultServiceCall(serviceUrl)
 
-  def transformModel(response: HttpResponse): Future[String]
+  def transformModel(response: HttpResponse): Future[String] = defaultStringResultConvertion(response)
 
-  def getNext(): ActorRef
+  def getNext(): ActorRef = sender()
 
   def wrapInMessage(model: String): AbstractWheatherModel
+
+
+  def defaultServiceCall(url : String): Future[HttpResponse] = Http().singleRequest(HttpRequest(uri = url))
+  def defaultStringResultConvertion(response: HttpResponse) : Future[String] = Unmarshal(response).to[String]
 
   override def receive = {
     case _ => {
