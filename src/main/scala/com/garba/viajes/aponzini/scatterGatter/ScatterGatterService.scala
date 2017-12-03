@@ -1,4 +1,4 @@
-package com.garba.viajes.aponzini.scattergatter
+package com.garba.viajes.aponzini.scatterGatter
 
 import akka.actor.{ActorRef, Props}
 import com.garba.viajes.aponzini.common.WeatherActor

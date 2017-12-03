@@ -23,7 +23,6 @@ class ScatterGatterServiceWithRouter(originalSender : ActorRef) extends WeatherA
     case aggre : AggregationResultRouter =>
       originalSender ! aggre
 
-    case elses => println(elses.getClass.getName)
   }
 }
 

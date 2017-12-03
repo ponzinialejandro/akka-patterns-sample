@@ -1,4 +1,4 @@
-package com.garba.viajes.aponzini.requestProvideOrchestrator
+package com.garba.viajes.aponzini.requests
 
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
@@ -19,12 +19,11 @@ class SingleRequestProviderTest() extends TestKit(ActorSystem("SingleRequestProv
 
   "SingleRequestProviderTest" must {
 
-    "Orchestrator should return an OpenWeaterMapsWithCityHistory" in {
+    "Single request OpenWeatherMapActor" in {
 
       val sgService = system.actorOf(Props(new OpenWeatherMapActor()))
-      sgService.tell(OpenWeaterMapRequest, self)
+      sgService ! OpenWeaterMapRequest
       expectMsgClass(6 seconds, classOf[OpenWeatherMapMessage])
-
     }
   }
 }

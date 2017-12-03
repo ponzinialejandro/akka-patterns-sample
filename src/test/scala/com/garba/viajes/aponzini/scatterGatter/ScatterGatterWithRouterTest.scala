@@ -1,4 +1,4 @@
-package com.garba.viajes.aponzini.scattergatter
+package com.garba.viajes.aponzini.scatterGatter
 
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
@@ -7,7 +7,7 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import scala.concurrent.duration._
 
-class ScatterGatterWithRouterTest() extends TestKit(ActorSystem("ScatterGatherRouterTest")) with ImplicitSender
+class ScatterGatterWithRouterTest extends TestKit(ActorSystem("ScatterGatherRouterTest")) with ImplicitSender
   with WordSpecLike with Matchers with BeforeAndAfterAll {
 
   override def afterAll {

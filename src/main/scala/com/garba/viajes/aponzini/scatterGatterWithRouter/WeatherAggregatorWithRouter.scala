@@ -6,7 +6,7 @@ import com.garba.viajes.aponzini.common.WeatherActor
 import com.garba.viajes.aponzini.common.providers.{DarkSkyMessage, WundergroundMessage}
 
 import scala.concurrent.duration._
-import com.garba.viajes.aponzini.scattergatter.AggregationResult
+import com.garba.viajes.aponzini.scatterGatter.AggregationResult
 
 case class AggregationResultRouter(map : Map[String,String])
 
