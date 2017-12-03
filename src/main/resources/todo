@@ -2,3 +2,6 @@
 
 *- Rest poder invocar todos los servicios. Implicit convertions
 
+*- connection with database , workers  router pools
+
+-=* monitoring kamon

@@ -1,4 +1,4 @@
-package com.garba.viajes.aponzini.spray
+package com.garba.viajes.aponzini.spray.endpoint
 
 import akka.actor.Actor
 import spray.routing._

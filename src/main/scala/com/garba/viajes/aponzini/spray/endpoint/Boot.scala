@@ -1,11 +1,11 @@
-package com.garba.viajes.aponzini.spray
+package com.garba.viajes.aponzini.spray.endpoint
 
 import akka.actor._
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
 import spray.can.Http
 
-object Main extends App {
+object Boot extends App {
 
   // we need an ActorSystem to host our application in
   implicit val system = ActorSystem("on-spray-can")
