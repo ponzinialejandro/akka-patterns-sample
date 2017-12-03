@@ -11,3 +11,11 @@ https://developer.yahoo.com/weather/
 
 
 
+
+
+Routing:
+https://doc.akka.io/docs/akka/2.0/scala/routing.html
+https://medium.com/akka-for-newbies/routers-5a501cdf616d
+
+Router group vs router pool
+We’ve used router pools in our example. Router pools are responsible for creating their routees and managing them. Sometimes, we may wish to create routees separately and route messages to them. In such cases, we use a router group. A router group manages routees in a different actor system.

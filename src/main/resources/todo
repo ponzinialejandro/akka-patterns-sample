@@ -1,14 +1,3 @@
-*- Un servicio que invoca y develve el resultado de un proveedor
-*- Lo miso con lo de arriba pero con un orchestrator que permita hacer varios pasos antes de devolver.
-*- Una nueva version de scatter gatter mejorado utilizando el patron de pipes
-
-              -     actor que busca -> actor que trasnforma  -
-   Scatter ->       actor que busca -> actor que trasnforma   -> Aggregator
-              -     actor que busca -> actor que trasnforma  -
-
-
-*- Retornar el primero que llega.
-
 *-Routers y dispatchers con docker
 
 *- Rest poder invocar todos los servicios. Implicit convertions
