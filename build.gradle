@@ -32,7 +32,7 @@ dependencies {
     compile     group: 'com.typesafe.akka'  , name: 'akka-contrib_2.11' , version: '2.5.7'
     compile     group: 'io.spray'           , name: 'spray-json_2.11'   , version: '1.3.4'
     compile     group: 'io.spray'           , name: 'spray-routing_2.11', version: '1.3.4'
-    compile     group: 'io.spray'           , name: 'spray-can_2.11', version: '1.3.4'
+    compile     group: 'io.spray'           , name: 'spray-can_2.11'    , version: '1.3.4'
 
     testCompile group: 'com.typesafe.akka'  , name: 'akka-testkit_2.11' , version: '2.5.7'
     testCompile group: 'org.scalatest'      , name: 'scalatest_2.11'    , version: '3.0.4'
