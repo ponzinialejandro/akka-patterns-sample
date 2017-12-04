@@ -27,6 +27,7 @@ class RequestOrchestrator(originalSender : ActorRef) extends WeatherActor{
       println("RequestOrchestrator.receive(OpenWeaterMapsWithCityHistory) from CityHistoryActor")
       println("Return to originalSender OpenWeaterMapsWithCityHistory")
       originalSender ! result
+      die
     }
   }
 }

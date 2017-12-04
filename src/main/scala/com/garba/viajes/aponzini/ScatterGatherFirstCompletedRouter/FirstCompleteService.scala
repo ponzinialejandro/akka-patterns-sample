@@ -22,6 +22,7 @@ class FirstCompleteService(originalSender : ActorRef) extends WeatherActor{
 
     case message =>
       originalSender ! message
+      die
   }
 
 }

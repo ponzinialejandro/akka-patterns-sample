@@ -3,7 +3,10 @@ package com.garba.viajes.aponzini.common
 import akka.actor.{Actor, ActorSystem}
 import akka.stream.ActorMaterializer
 
-abstract class WeatherActor extends Actor with ActorSystemContext
+abstract class WeatherActor extends Actor with ActorSystemContext{
+
+  def die = {}//context.stop(self)
+}
 
 trait ActorSystemContext{
   implicit val system = ActorSystem("weather-system")

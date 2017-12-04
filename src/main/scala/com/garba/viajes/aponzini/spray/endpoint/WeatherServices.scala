@@ -1,7 +1,6 @@
 package com.garba.viajes.aponzini.spray.endpoint
 
-import akka.actor.{Actor, Props}
-import spray.routing._
+import akka.actor.Props
 import spray.http._
 import MediaTypes._
 import com.garba.viajes.aponzini.common.{Person, WeatherActor}
@@ -10,11 +9,9 @@ import com.garba.viajes.aponzini.requestProvideOrchestrator.{CityHistoryWeatherA
 import spray.json._
 import akka.pattern.ask
 import akka.util.Timeout
-import spray.util.LoggingContext
+import com.garba.viajes.aponzini.ScatterGatherFirstCompletedRouter.{FirstCompleteActor, FirstCompleteRequest}
 
 import scala.concurrent.duration._
-import spray.util.LoggingContext
-import spray.http.StatusCodes._
 import spray.routing._
 
 // we don't implement our route structure directly in the service actor because
@@ -25,20 +22,9 @@ class WeatherServices extends WeatherActor with HttpService{
 
   implicit val timeout : Timeout = 15 seconds
 
-  /*implicit val routingSetting : RoutingSettings = RoutingSettings.default
-
-  implicit def myExceptionHandler(implicit log: LoggingContext) =
-    ExceptionHandler {
-      case e: ArithmeticException =>
-        requestUri { uri =>
-          log.warning("Request to {} could not be handled normally", uri)
-          complete(InternalServerError, "Bad numbers, bad result!!!")
-        }
-    }
-
-*/
-
   val cityHistoryWeatherActor = context.actorOf(Props(new CityHistoryWeatherActor))
+  val firstCompleteActor = context.actorOf(Props(new FirstCompleteActor))
+
   // the HttpService trait defines only one abstract member, which
   // connects the services environment to the enclosing actor or test
 
@@ -46,17 +32,6 @@ class WeatherServices extends WeatherActor with HttpService{
   // this actor only runs our route, but you could add
   // other things here, like request stream processing
   // or timeout handling
-
-  val person =
-  path("person") {
-    get {
-      respondWithMediaType(`application/json`) {
-        complete {
-          Person("Bob", "Type A", 2L).toJson.toString()
-        }
-      }
-    }
-  }
 
   val home = {
     path("") {
@@ -83,14 +58,29 @@ class WeatherServices extends WeatherActor with HttpService{
           val futureResult = cityHistoryWeatherActor ? WeatherHistoryRequest
           futureResult.onComplete(result => {
             request.complete {
-              Person("Bob", "Type A", 2L).toJson.prettyPrint
+              "CITY WEATHER"
             }
           })
         }
       }
     }
 
-  def receive = runRoute(home ~ person ~ cityWeather)
+  val firstComplete =
+    path("firstcomplete") {
+      get {
+        request => {
+          val futureResult = firstCompleteActor ? FirstCompleteRequest
+          futureResult.onComplete(result => {
+            println(result)
+            request.complete {
+              "FIRST COMPLETE "
+            }
+          })
+        }
+      }
+    }
+
+  def receive = runRoute(home ~ cityWeather ~ firstComplete)
 }
 /*
 // this trait defines our service behavior independently from the service actor
