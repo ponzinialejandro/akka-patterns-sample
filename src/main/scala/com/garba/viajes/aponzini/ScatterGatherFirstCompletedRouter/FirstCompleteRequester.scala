@@ -7,7 +7,8 @@ class FirstCompleteRequester extends WeatherActor{
 
   override def receive = {
     case message @ FirstCompleteRequest =>
-      val serivce = context.actorOf(Props(new FirstCompleteService(sender())))
+      val originalSender = sender()
+      val serivce = context.actorOf(Props(new FirstCompleteService(originalSender)))
       serivce ! message
   }
 }

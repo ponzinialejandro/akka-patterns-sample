@@ -60,8 +60,7 @@ class WeatherServices extends WeatherActor with HttpService{
       get {
         request => {
           val futureResult = firstCompleteActor ? FirstCompleteRequest
-          val mapFuture = futureResult.mapTo[OpenWeaterMapsWithCityHistory]
-          mapFuture.onComplete(result => {
+          futureResult.onComplete(result => {
             println(result)
           })
         }

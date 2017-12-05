@@ -9,7 +9,8 @@ class CityHistoryWeatherRequester extends WeatherActor{
   override def receive = {
     case req @ WeatherHistoryRequest =>
       println("CityHistoryWeatherRequester => receive WeatherHistoryRequest ")
-      val orquestrator = context.actorOf(Props(new RequestOrchestrator(sender()))/*.withDispatcher("city-weather-dispatcher")*/)
+      val originalSender = sender()
+      val orquestrator = context.actorOf(Props(new RequestOrchestrator(originalSender)))
       orquestrator ! req
   }
 }
