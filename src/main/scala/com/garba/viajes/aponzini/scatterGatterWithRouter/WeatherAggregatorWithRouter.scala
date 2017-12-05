@@ -10,11 +10,13 @@ import com.garba.viajes.aponzini.scatterGatter.AggregationResult
 
 case class AggregationResultRouter(map : Map[String,String])
 
+case class AggregationRouterTimeout()
+
 class WeatherAggregatorWithRouter(next: ActorRef, providers: Int) extends WeatherActor {
 
   var weather  : Map[String,String] =  Map[String,String]()
   val timeout = 40 seconds
-  val task = context.system.scheduler.scheduleOnce(timeout, self, Timeout)
+  val task = context.system.scheduler.scheduleOnce(timeout, self, AggregationRouterTimeout)
   var count : Int = 0
 
 
@@ -42,7 +44,7 @@ class WeatherAggregatorWithRouter(next: ActorRef, providers: Int) extends Weathe
       checkSend()
     }
 
-    case Timeout => {
+    case AggregationRouterTimeout => {
       println("WeatherAggregator.Timeout")
       send()
     }

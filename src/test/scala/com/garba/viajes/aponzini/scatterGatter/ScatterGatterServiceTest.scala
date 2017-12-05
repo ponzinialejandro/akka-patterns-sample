@@ -16,9 +16,9 @@ class ScatterGatterServiceTest extends TestKit(ActorSystem("ScatterGatherTest"))
   "ScatterGatterService" must {
 
     "return an AggregationResult class" in {
-      val sgService = system.actorOf(Props( new ScatterGatterService(self)))
+      val sgService = system.actorOf(Props( new ScatterGatterRequester()))
       sgService ! ScatterGatterRequest //implicit sender
-      expectMsgClass(10 seconds , classOf[AggregationResult])
+      expectMsgClass(15 seconds , classOf[AggregationResult])
     }
   }
 }

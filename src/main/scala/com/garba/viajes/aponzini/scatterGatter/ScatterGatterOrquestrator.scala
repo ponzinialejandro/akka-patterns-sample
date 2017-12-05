@@ -8,7 +8,7 @@ import scala.concurrent.duration._
 
 case class ScatterGatterRequest()
 
-class ScatterGatterService(originalSender : ActorRef) extends WeatherActor {
+class ScatterGatterOrquestrator(originalSender : ActorRef) extends WeatherActor {
 
 
   val darkActor = context.actorOf(Props(new DarkSkyActor()))
@@ -18,7 +18,7 @@ class ScatterGatterService(originalSender : ActorRef) extends WeatherActor {
     case ScatterGatterRequest => {
       val aggregatorActor = context.actorOf(Props(new WeatherAggregator(self, 4 seconds)))
       val services: List[ActorRef] = List(darkActor, wundergroundActor)
-      val scatterActor = context.actorOf(Props(new ScatterWeather(services)))
+      val scatterActor = context.actorOf(Props(new WeatherScatter(services)))
       scatterActor.tell(None, aggregatorActor)
     }
     case aggregation : AggregationResult => {

@@ -2,7 +2,7 @@ package com.garba.viajes.aponzini.scatterGatter
 
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
-import com.garba.viajes.aponzini.scatterGatterWithRouter.{AggregationResultRouter, ScatterGatterServiceWithRouter, WeatherRouterRequest}
+import com.garba.viajes.aponzini.scatterGatterWithRouter.{AggregationResultRouter, ScatterGatterBroadcastOrchestrator, ScatterGatterBroadcastRequester, WeatherRouterRequest}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import scala.concurrent.duration._
@@ -17,9 +17,9 @@ class ScatterGatterWithRouterTest extends TestKit(ActorSystem("ScatterGatherRout
   "ScatterGatterRouterService" must {
 
     "return an AggregationResult class" in {
-      val sgService = system.actorOf(Props( new ScatterGatterServiceWithRouter(self)))
+      val sgService = system.actorOf(Props( new ScatterGatterBroadcastRequester()))
       sgService ! WeatherRouterRequest
-      expectMsgClass(6 seconds , classOf[AggregationResultRouter])
+      expectMsgClass(15 seconds , classOf[AggregationResultRouter])
     }
   }
 }

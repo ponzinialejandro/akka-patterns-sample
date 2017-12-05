@@ -4,8 +4,6 @@ import akka.actor.{ActorRef, Props}
 import com.garba.viajes.aponzini.common.WeatherActor
 import com.garba.viajes.aponzini.common.providers.{OpenWeaterMapRequest, OpenWeatherMapActor, OpenWeatherMapMessage}
 
-case class WeaterRequest()
-
 class RequestOrchestrator(originalSender : ActorRef) extends WeatherActor{
 
   lazy val weatherActor : ActorRef = context.actorOf(Props(new OpenWeatherMapActor))
@@ -13,7 +11,7 @@ class RequestOrchestrator(originalSender : ActorRef) extends WeatherActor{
 
   override def receive = {
 
-    case WeaterRequest => {
+    case WeatherHistoryRequest => {
       println("RequestOrchestrator.receive(WeaterRequest)")
       println("Call OpenWeatherMapActor")
       weatherActor ! OpenWeaterMapRequest

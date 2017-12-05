@@ -2,7 +2,7 @@ package com.garba.viajes.aponzini.FirstComplete
 
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
-import com.garba.viajes.aponzini.ScatterGatherFirstCompletedRouter.{FirstCompleteRequest, FirstCompleteService}
+import com.garba.viajes.aponzini.ScatterGatherFirstCompletedRouter.{FirstCompleteRequest, FirstCompleteRequester, FirstCompleteService}
 import com.garba.viajes.aponzini.common.providers.{DarkSkyMessage, WundergroundMessage}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
@@ -17,9 +17,9 @@ class FirstCompleteTest extends TestKit(ActorSystem("SingleRequestProviderTest")
 
   "SingleRequestProviderTest" must {
     "Orchestrator should return an OpenWeaterMapsWithCityHistory" in {
-      val sgService = system.actorOf(Props( new FirstCompleteService(self)))
+      val sgService = system.actorOf(Props( new FirstCompleteRequester()))
       sgService ! FirstCompleteRequest //implicit sender
-      expectMsgPF(10 seconds ){
+      expectMsgPF(15 seconds ){
         case WundergroundMessage(_) =>
         case DarkSkyMessage(_) =>
         case _ => fail()

@@ -8,11 +8,11 @@ import com.garba.viajes.aponzini.common.providers.{DarkSkyMessage, WundergroundM
 import scala.concurrent.duration._
 
 case class AggregationResult(map : Map[String,String])
-
+case class AggregationTimeout()
 class WeatherAggregator(next: ActorRef, timeout : FiniteDuration) extends WeatherActor{
 
   var weather  : Map[String,String] =  Map[String,String]()
-  override def preStart(): Unit = context.system.scheduler.scheduleOnce(timeout, self, Timeout)
+  override def preStart(): Unit = context.system.scheduler.scheduleOnce(timeout, self, AggregationTimeout)
 
 
   override def receive = {
@@ -24,8 +24,8 @@ class WeatherAggregator(next: ActorRef, timeout : FiniteDuration) extends Weathe
       println("WeatherAggregator.WundergroundMessage")
       weather += ("WundergroundMessage" -> model)
   }
-    case Timeout => {
-      println("WeatherAggregator.Timeout")
+    case AggregationTimeout => {
+      println("WeatherAggregator.AggregationTimeout")
       next ! AggregationResult(weather)
     }
     case _ => {

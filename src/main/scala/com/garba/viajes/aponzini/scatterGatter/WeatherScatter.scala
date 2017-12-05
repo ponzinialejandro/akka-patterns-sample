@@ -2,7 +2,7 @@ package com.garba.viajes.aponzini.scatterGatter
 
 import akka.actor.{Actor, ActorRef}
 
-class ScatterWeather(services :Seq[ActorRef])  extends Actor {
+class WeatherScatter(services :Seq[ActorRef])  extends Actor {
 
   override def receive = {
       //sender() is the aggregator

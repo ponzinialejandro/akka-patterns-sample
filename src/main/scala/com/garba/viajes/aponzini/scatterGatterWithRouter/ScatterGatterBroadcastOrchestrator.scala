@@ -7,7 +7,7 @@ import com.garba.viajes.aponzini.common.providers.{DarkSkyActor, WundergroundAct
 
 case class WeatherRouterRequest()
 
-class ScatterGatterServiceWithRouter(originalSender : ActorRef) extends WeatherActor {
+class ScatterGatterBroadcastOrchestrator(originalSender : ActorRef) extends WeatherActor {
 
   val darkActor = context.actorOf(Props(new DarkSkyActor()))
   val wundergroundActor = context.actorOf(Props(new WundergroundActor()))
