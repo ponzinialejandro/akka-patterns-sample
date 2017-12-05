@@ -18,10 +18,6 @@ tasks.withType(ScalaCompile) {
     ScalaCompileOptions.metaClass.useCompileDaemon = false
 }
 
-ext{
-
-}
-
 dependencies {
 
 
