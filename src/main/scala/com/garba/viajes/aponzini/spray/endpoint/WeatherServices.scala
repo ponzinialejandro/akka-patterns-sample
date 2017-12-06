@@ -14,11 +14,11 @@ import com.garba.viajes.aponzini.ScatterGatherFirstCompletedRouter.{FirstComplet
 import scala.concurrent.duration._
 import spray.routing._
 
-class WeatherServices extends WeatherActor with HttpService{
+class WeatherServices extends WeatherActor with HttpService {
 
   implicit def actorRefFactory = context
 
-  implicit val timeout : Timeout = 15 seconds
+  implicit val timeout: Timeout = 30 seconds
 
   val cityHistoryWeatherActor = context.actorOf(Props(new CityHistoryWeatherRequester))
   val firstCompleteActor = context.actorOf(Props(new FirstCompleteRequester))
@@ -61,7 +61,9 @@ class WeatherServices extends WeatherActor with HttpService{
         request => {
           val futureResult = firstCompleteActor ? FirstCompleteRequest
           futureResult.onComplete(result => {
-            println(result)
+            request.complete {
+              result.toString
+            }
           })
         }
       }

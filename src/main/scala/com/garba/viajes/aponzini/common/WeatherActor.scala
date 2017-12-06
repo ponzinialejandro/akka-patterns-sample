@@ -5,7 +5,10 @@ import akka.stream.ActorMaterializer
 
 abstract class WeatherActor extends Actor with ActorSystemContext{
 
-  def die = {}//context.stop(self)
+  def die = {
+    println(s"DIE ${getClass.getName}")
+    context.stop(self)
+  }
 }
 
 trait ActorSystemContext{
