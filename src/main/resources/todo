@@ -1,5 +1,6 @@
-*- Routers y dispatchers con docker
 *- Rest poder invocar todos los servicios. Implicit convertions
-*- connection with database ,
-*- workers  router pools
+
+
+*- Routers y dispatchers
+*- workers  router pools & connection with database docker
 *- monitoring kamon

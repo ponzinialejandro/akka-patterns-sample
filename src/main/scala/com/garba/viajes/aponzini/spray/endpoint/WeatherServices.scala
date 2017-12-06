@@ -10,6 +10,8 @@ import spray.json._
 import akka.pattern.ask
 import akka.util.Timeout
 import com.garba.viajes.aponzini.ScatterGatherFirstCompletedRouter.{FirstCompleteRequest, FirstCompleteRequester}
+import com.garba.viajes.aponzini.common.providers.DarkSkyActor
+import com.garba.viajes.aponzini.scatterGatterWithRouter.{ScatterGatterBroadcastRequester, WeatherRouterRequest}
 
 import scala.concurrent.duration._
 import spray.routing._
@@ -22,6 +24,8 @@ class WeatherServices extends WeatherActor with HttpService {
 
   val cityHistoryWeatherActor = context.actorOf(Props(new CityHistoryWeatherRequester))
   val firstCompleteActor = context.actorOf(Props(new FirstCompleteRequester))
+  val scatterGatterActor = context.actorOf(Props(new ScatterGatterBroadcastRequester))
+  val darkSkyProviderActor = context.actorOf(Props(new DarkSkyActor))
 
   val routes = {
     path("") {
@@ -69,5 +73,35 @@ class WeatherServices extends WeatherActor with HttpService {
       }
     }
 
-  def receive = runRoute(routes ~ cityWeather ~ firstComplete)
+
+  val scatterGatter =
+    path("scattergatter") {
+      get {
+        request => {
+          val futureResult = scatterGatterActor ? WeatherRouterRequest
+          futureResult.onComplete(result => {
+            request.complete {
+              result.toString
+            }
+          })
+        }
+      }
+    }
+
+  val darkySky =
+    path("darksky") {
+      get {
+        request => {
+          val futureResult = darkSkyProviderActor ? None
+          futureResult.onComplete(result => {
+            request.complete {
+              result.toString
+            }
+          })
+        }
+      }
+    }
+
+
+  def receive = runRoute(routes ~ cityWeather ~ firstComplete ~ scatterGatter ~ darkySky)
 }

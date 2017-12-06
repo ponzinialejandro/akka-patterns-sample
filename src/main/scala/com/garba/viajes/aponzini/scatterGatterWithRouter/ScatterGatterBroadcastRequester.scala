@@ -6,7 +6,8 @@ import com.garba.viajes.aponzini.common.WeatherActor
 class ScatterGatterBroadcastRequester extends WeatherActor{
   override def receive = {
     case message @ WeatherRouterRequest =>
-      val orchestrator = context.actorOf(Props(new ScatterGatterBroadcastOrchestrator(sender())))
+      val orginalSender =  sender()
+      val orchestrator = context.actorOf(Props(new ScatterGatterBroadcastOrchestrator(orginalSender)))
       orchestrator ! message
 
   }

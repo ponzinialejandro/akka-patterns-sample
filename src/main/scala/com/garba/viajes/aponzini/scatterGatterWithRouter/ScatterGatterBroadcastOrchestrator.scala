@@ -22,6 +22,7 @@ class ScatterGatterBroadcastOrchestrator(originalSender : ActorRef) extends Weat
 
     case aggre : AggregationResultRouter =>
       originalSender ! aggre
+      die
 
   }
 }
