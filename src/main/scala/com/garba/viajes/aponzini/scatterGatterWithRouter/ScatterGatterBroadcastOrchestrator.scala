@@ -2,7 +2,7 @@ package com.garba.viajes.aponzini.scatterGatterWithRouter
 
 import akka.actor.{ActorRef, Props}
 import akka.routing.BroadcastGroup
-import com.garba.viajes.aponzini.common.WeatherActor
+import com.garba.viajes.aponzini.common.{ActorReferences, WeatherActor}
 import com.garba.viajes.aponzini.common.providers.{DarkSkyActor, WundergroundActor}
 
 case class WeatherRouterRequest()
@@ -11,6 +11,7 @@ class ScatterGatterBroadcastOrchestrator(originalSender : ActorRef) extends Weat
 
   val darkActor = context.actorOf(Props(new DarkSkyActor()))
   val wundergroundActor = context.actorOf(Props(new WundergroundActor()))
+  val dbAccesor = ActorReferences.getDatabaseAccesor;
 
   override def receive = {
 
@@ -21,6 +22,7 @@ class ScatterGatterBroadcastOrchestrator(originalSender : ActorRef) extends Weat
       broadcastActor.tell(request, aggregator)
 
     case aggre : AggregationResultRouter =>
+      dbAccesor ! aggre
       originalSender ! aggre
       die
 

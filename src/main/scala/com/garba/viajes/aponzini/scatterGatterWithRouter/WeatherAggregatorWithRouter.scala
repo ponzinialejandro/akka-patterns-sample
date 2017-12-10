@@ -49,8 +49,8 @@ class WeatherAggregatorWithRouter(next: ActorRef, providers: Int) extends Weathe
       send()
     }
 
-    case _ => {
-      println("WeatherAggregator.Error")
+    case otroCaso => {
+      println("WeatherAggregator.Error" + otroCaso.getClass.getName)
       println("error")
     }
   }

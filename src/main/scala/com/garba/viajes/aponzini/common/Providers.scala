@@ -20,7 +20,7 @@ trait Providers extends ActorSystemContext{
     val apiKey = "9c90360fd2a66589c0200eda7b323db9"
     val latitude = -34.6083
     val longitude = -58.3712
-    val apiUrl = "https://api.dasdasdasarksky.net/forecast/"
+    val apiUrl = "https://api.darksky.net/forecast/"
     val serviceUrl = s"${apiUrl}${apiKey}/${latitude},${longitude}"
     serviceUrl
   }
