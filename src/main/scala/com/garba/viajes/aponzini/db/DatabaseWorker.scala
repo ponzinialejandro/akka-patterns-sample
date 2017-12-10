@@ -6,7 +6,7 @@ class DatabaseWorker extends WeatherActor {
 
   override def receive = {
     case asd =>
-      println("ENTRA al DB WORKER")
+      println("ENTRA al DB WORKER "+ hashCode())
   }
 
 }
