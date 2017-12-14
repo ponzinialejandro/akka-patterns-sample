@@ -11,6 +11,7 @@ class DatabaseAccesor extends WeatherActor {
     .withDispatcher("db-dispatcher")
     .withRouter(RoundRobinPool(nrOfInstances = 3, Some(resizer))))
 
+  //Esta misma configuracion puede ponerse en application.conf
   override def receive = {
 
     case request => {

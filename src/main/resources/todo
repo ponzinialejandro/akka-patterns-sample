@@ -1,6 +1,17 @@
-*- Rest poder invocar todos los servicios. Implicit convertions
-
-
-*- Routers y dispatchers
-*- workers  router pools & connection with database docker
+*- Implicit convertions ???
+*- dispatchers para cada request
 *- monitoring kamon
+*- emprolijar
+
+
+
+https://github.com/muuki88/activator-akka-kamon
+
+docker run \
+  --detach \
+   --publish=80:80 \
+   --publish=81:81 \
+   --publish=8125:8125/udp \
+   --publish=8126:8126 \
+   --name kamon-grafana-dashboard \
+   kamon/grafana_graphite
