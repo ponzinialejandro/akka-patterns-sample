@@ -1,38 +1,34 @@
 package com.garba.viajes.aponzini.spray.endpoint
 
-import akka.actor.Props
-import spray.http._
-import MediaTypes._
-import com.garba.viajes.aponzini.common.{Person, WeatherActor}
-import com.garba.viajes.aponzini.common.JsonConverter._
-import com.garba.viajes.aponzini.requestProvideOrchestrator.{CityHistoryWeatherRequester, OpenWeaterMapsWithCityHistory, WeatherHistoryRequest}
-import spray.json._
+import akka.actor.{ActorRef, Props}
+import akka.http.scaladsl.server.{Directives, Route}
 import akka.pattern.ask
 import akka.util.Timeout
 import com.garba.viajes.aponzini.ScatterGatherFirstCompletedRouter.{FirstCompleteRequest, FirstCompleteRequester}
-import com.garba.viajes.aponzini.common.providers.DarkSkyActor
+import com.garba.viajes.aponzini.common.ActorSystemContext
+import com.garba.viajes.aponzini.requestProvideOrchestrator.{CityHistoryWeatherRequester, WeatherHistoryRequest}
 import com.garba.viajes.aponzini.scatterGatterWithRouter.{ScatterGatterBroadcastRequester, WeatherRouterRequest}
 import com.garba.viajes.aponzini.singleRequest.DarkSkyRequester
 
 import scala.concurrent.duration._
-import spray.routing._
+import scala.language.postfixOps
+import akka.http.scaladsl.marshallers.xml.ScalaXmlSupport._
 
-class WeatherServices extends WeatherActor with HttpService {
+class WeatherServices extends Directives with ActorSystemContext {
 
-  implicit def actorRefFactory = context
+  //implicit def actorRefFactory = system
 
   implicit val timeout: Timeout = 30 seconds
 
-  val cityHistoryWeatherActor = context.actorOf(Props(new CityHistoryWeatherRequester))
-  val firstCompleteActor = context.actorOf(Props(new FirstCompleteRequester))
-  val scatterGatterActor = context.actorOf(Props(new ScatterGatterBroadcastRequester))
-  val darkSkyProviderActor = context.actorOf(Props(new DarkSkyRequester))
+  val cityHistoryWeatherActor: ActorRef = system.actorOf(Props(new CityHistoryWeatherRequester))
+  val firstCompleteActor: ActorRef = system.actorOf(Props(new FirstCompleteRequester))
+  val scatterGatterActor: ActorRef = system.actorOf(Props(new ScatterGatterBroadcastRequester))
+  val darkSkyProviderActor: ActorRef = system.actorOf(Props(new DarkSkyRequester))
 
-  val routes = {
+  val home: Route = {
     path("") {
       get {
         // respond with text/html.
-        respondWithMediaType(`text/html`) {
           complete {
             // respond with a set of HTML elements
             <html>
@@ -42,67 +38,49 @@ class WeatherServices extends WeatherActor with HttpService {
             </html>
           }
         }
-      }
     }
   }
 
-  val cityWeather =
+  val cityWeather: Route =
     path("cityweather") {
       get {
-        request => {
-          val futureResult = cityHistoryWeatherActor ? WeatherHistoryRequest
-          futureResult.onComplete(result => {
-            request.complete {
-              result.toString
-            }
-          })
+        complete {
+          (cityHistoryWeatherActor ? WeatherHistoryRequest).mapTo[String]
         }
       }
     }
 
-  val firstComplete =
+  val firstComplete: Route =
     path("firstcomplete") {
       get {
-        request => {
-          val futureResult = firstCompleteActor ? FirstCompleteRequest
-          futureResult.onComplete(result => {
-            request.complete {
-              result.toString
-            }
-          })
+        complete {
+          (firstCompleteActor ? FirstCompleteRequest).mapTo[String]
         }
       }
     }
 
 
-  val scatterGatter =
+  val scatterGatter: Route =
     path("scattergatter") {
       get {
-        request => {
-          val futureResult = scatterGatterActor ? WeatherRouterRequest
-          futureResult.onComplete(result => {
-            request.complete {
-              result.toString
-            }
-          })
+        complete {
+          (scatterGatterActor ? WeatherRouterRequest).mapTo[String]
         }
       }
     }
 
-  val darkySky =
+  val darkySky: Route =
     path("darksky") {
       get {
-        request => {
-          val futureResult = darkSkyProviderActor ? None
-          futureResult.onComplete(result => {
-            request.complete {
-              result.toString
-            }
-          })
+        complete {
+          (darkSkyProviderActor ? None).mapTo[String]
         }
       }
     }
 
 
-  def receive = runRoute(routes ~ cityWeather ~ firstComplete ~ scatterGatter ~ darkySky)
+  val routes: Route = encodeResponse {
+    home ~ cityWeather ~ firstComplete ~ scatterGatter ~ darkySky
+  }
+
 }
