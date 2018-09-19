@@ -20,10 +20,10 @@ class WeatherServices extends Directives with ActorSystemContext {
 
   implicit val timeout: Timeout = 30 seconds
 
-  val cityHistoryWeatherActor: ActorRef = system.actorOf(Props(new CityHistoryWeatherRequester))
-  val firstCompleteActor: ActorRef = system.actorOf(Props(new FirstCompleteRequester))
-  val scatterGatterActor: ActorRef = system.actorOf(Props(new ScatterGatterBroadcastRequester))
-  val darkSkyProviderActor: ActorRef = system.actorOf(Props(new DarkSkyRequester))
+  lazy val cityHistoryWeatherActor: ActorRef = system.actorOf(Props(new CityHistoryWeatherRequester))
+  lazy val firstCompleteActor: ActorRef = system.actorOf(Props(new FirstCompleteRequester))
+  lazy val scatterGatterActor: ActorRef = system.actorOf(Props(new ScatterGatterBroadcastRequester))
+  lazy val darkSkyProviderActor: ActorRef = system.actorOf(Props(new DarkSkyRequester))
 
   val home: Route = {
     path("") {

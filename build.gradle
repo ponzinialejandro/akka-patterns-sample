@@ -7,10 +7,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    compile 'org.scala-lang:scala-library:2.11.8'
-}
-
 tasks.withType(ScalaCompile) {
     ScalaCompileOptions.metaClass.daemonServer = true
     ScalaCompileOptions.metaClass.fork = true
@@ -18,12 +14,10 @@ tasks.withType(ScalaCompile) {
     ScalaCompileOptions.metaClass.useCompileDaemon = false
 }
 
-//akkaConfig = 'com.typesafe:ssl-config-akka_2.12:0.2.2'
-
 dependencies {
 
     //SCALA
-    compile     group: 'org.scala-lang'         , name: 'scala-library'                 , version: '2.12.6'
+    compile     group: 'org.scala-lang'         , name: 'scala-library'                 , version: '2.12.5'
     compile     group: 'org.scala-lang.modules' , name: 'scala-xml_2.12'                , version: '1.1.0'
     //AKKA
     compile     group: 'com.typesafe.akka'      , name: 'akka-actor_2.12'               , version: '2.5.7'
@@ -38,12 +32,12 @@ dependencies {
     compile     group: 'com.typesafe.akka'      , name: 'akka-http-spray-json_2.12'     , version: '10.1.5'
     compile     group: 'com.typesafe.akka'      , name: 'akka-http-xml_2.12'            , version: '10.1.5'
     //KAMON
-    compile     group: 'io.kamon'               , name: 'kamon-statsd_2.12'             , version: '1.0.0'
-    compile     group: 'io.kamon'               , name: 'kamon-log-reporter_2.12'       , version: '0.6.8'
-    compile     group: 'io.kamon'               , name: 'kamon-system-metrics_2.12'     , version: '1.0.0'
-    compile     group: 'io.kamon'               , name: 'kamon-akka-2.5_2.12'           , version: '1.0.0'
-    compile     group: 'io.kamon'               , name: 'kamon-core_2.12'               , version: '1.0.0'
-    compile     group: 'org.aspectj'            , name: 'aspectjweaver'                 , version: '1.8.9'
+    compile     group: 'io.kamon'               , name: 'kamon-statsd_2.12'             , version: '0.6.7'
+    compile     group: 'io.kamon'               , name: 'kamon-log-reporter_2.12'       , version: '0.6.7'
+    compile     group: 'io.kamon'               , name: 'kamon-system-metrics_2.12'     , version: '0.6.7'
+    compile     group: 'io.kamon'               , name: 'kamon-akka-2.5_2.12'           , version: '0.6.7'
+    compile     group: 'io.kamon'               , name: 'kamon-core_2.12'               , version: '0.6.7'
+//    compile     group: 'org.aspectj'            , name: 'aspectjweaver'                 , version: '1.8.9'
     //TEST
     testCompile group: 'com.typesafe.akka'      , name: 'akka-testkit_2.12'             , version: '2.5.7'
     testCompile group: 'org.scalatest'          , name: 'scalatest_2.12'                , version: '3.0.4'

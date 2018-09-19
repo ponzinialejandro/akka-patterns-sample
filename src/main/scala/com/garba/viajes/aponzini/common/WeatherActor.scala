@@ -21,6 +21,12 @@ abstract class WeatherActor extends Actor with ActorSystemContext with ActorLogg
 }
 
 trait ActorSystemContext{
+  implicit val system = ActorSystemContextSingleton.system
+  implicit val executionContext = ActorSystemContextSingleton.executionContext
+  implicit val materializer = ActorSystemContextSingleton.materializer
+}
+
+object ActorSystemContextSingleton {
   implicit val system = ActorSystem("weather-system")
   implicit val executionContext = system.dispatcher
   implicit val materializer = ActorMaterializer()
